@@ -21,6 +21,12 @@ public class Main {
             return;
         }
 
+        // Duyệt lần đầu
+        List<Student> studentsInit = Student.generateVirtualData();
+        for(Student student : studentsInit) {
+            database.addStudent(student);
+        }
+
         while (true) {
             System.out.println("\n===== MENU =====");
             System.out.println("1. Thêm sinh viên");
@@ -65,7 +71,7 @@ public class Main {
     private static void addStudent() throws SQLException {
         System.out.print("Mã SV: ");
         String id = sc.nextLine();
-        if (!id.matches("(455105\\d{4}|455109\\d{4})")) {
+        if((!id.startsWith("455105") || !id.startsWith("455109")) && id.length() != 10) {
             System.out.println("Mã SV không hợp lệ!");
             return;
         }
@@ -135,6 +141,8 @@ public class Main {
 
     private static void printList(List<Student> list) {
         if (list.isEmpty()) System.out.println("Không có dữ liệu!");
-        else list.forEach(System.out::println);
+        else for (Student student : list) {
+            System.out.println(student);
+        }
     }
 }
