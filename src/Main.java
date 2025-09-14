@@ -22,10 +22,10 @@ public class Main {
         }
 
         // Duyệt lần đầu
-        List<Student> studentsInit = Student.generateVirtualData();
-        for(Student student : studentsInit) {
-            database.addStudent(student);
-        }
+//        List<Student> studentsInit = Student.generateVirtualData();
+//        for(Student student : studentsInit) {
+//            database.addStudent(student);
+//        }
 
         while (true) {
             System.out.println("\n===== MENU =====");
