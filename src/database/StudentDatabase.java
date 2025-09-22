@@ -12,6 +12,22 @@ public class StudentDatabase implements IDatabase {
 
     public StudentDatabase() throws SQLException {
         conn = DBConnection.getConnection();
+        createTable();
+    }
+
+    private void createTable() throws SQLException {
+        String sql = """
+                CREATE TABLE IF NOT EXISTS students (
+                    id VARCHAR(10) PRIMARY KEY,
+                    name VARCHAR(100) NOT NULL,
+                    dob DATE NOT NULL,
+                    major ENUM('CNTT', 'KTPM') NOT NULL,
+                    gpa DOUBLE CHECK(gpa >= 0.0 AND gpa <= 10.0),
+                    class_name VARCHAR(20) NOT NULL
+                );
+                """;
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.executeUpdate();
     }
 
     @Override
@@ -55,6 +71,16 @@ public class StudentDatabase implements IDatabase {
         while (rs.next()) {
             list.add(mapRow(rs));
         }
+        return list;
+    }
+
+    @SuppressWarnings("unused")
+    public List<Student> getAll2() throws SQLException {
+        List<Student> list = new ArrayList<>();
+        String sql = "SELECT * FROM students";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        ResultSet rs = stmt.executeQuery();
+        while(rs.next()) list.add(mapRow(rs));
         return list;
     }
 
